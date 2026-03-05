@@ -9,7 +9,6 @@ import Components from 'unplugin-vue-components/vite' // 组件自动导入
 import { defineConfig } from 'vite'
 import { viteMockServe } from 'vite-plugin-mock'
 import vueDevTools from 'vite-plugin-vue-devtools'
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [

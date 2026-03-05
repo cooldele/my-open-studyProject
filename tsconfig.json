@@ -15,7 +15,13 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "ignoreDeprecations": "6.0",   // 把 TS6 的弃用提示静音
+    "baseUrl": ".",                // 仍然需要，用于配合 paths
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

@@ -116,6 +116,21 @@ const formRules: FormRules = {
   email: [{ type: 'email', message: '请输入正确的邮箱', trigger: 'blur' }],
 }
 
+// 重置表单
+const resetForm = () => {
+  if (formRef.value) {
+    formRef.value.resetFields()
+  }
+  Object.assign(formData, {
+    username: '',
+    nickname: '',
+    password: '',
+    role: 'viewer',
+    phone: '',
+    email: '',
+    status: 1,
+  })
+}
 // 监听当前用户变化
 watch(
   () => props.currentUser,
@@ -135,22 +150,6 @@ watch(
   },
   { immediate: true },
 )
-
-// 重置表单
-const resetForm = () => {
-  if (formRef.value) {
-    formRef.value.resetFields()
-  }
-  Object.assign(formData, {
-    username: '',
-    nickname: '',
-    password: '',
-    role: 'viewer',
-    phone: '',
-    email: '',
-    status: 1,
-  })
-}
 
 // 提交表单
 const handleSubmit = async () => {

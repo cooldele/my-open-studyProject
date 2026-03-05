@@ -95,7 +95,7 @@
 
         <el-table-column label="角色" prop="role" width="120">
           <template #default="{ row }">
-            <el-tag :type="roleTypeMap[row.role]">
+            <el-tag :type="roleTypeMap[row.role] || undefined">
               {{ roleMap[row.role] }}
             </el-tag>
           </template>
@@ -386,8 +386,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .user-management-container {
-  padding: 20px;
-
   .user-info {
     display: flex;
     align-items: center;

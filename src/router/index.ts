@@ -1,7 +1,7 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
+import { CONTENT_ROUTE } from './content'
 import { setupRouterGuard } from './guard'
-
 const routes = [
   {
     path: '/login',
@@ -9,28 +9,13 @@ const routes = [
     component: () => import('@/views/login/index.vue'),
     meta: { requiresAuth: false },
   },
-  {
-    path: '/',
-    component: () => import('@/layouts/default.vue'),
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: '',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-      },
-      {
-        path: 'user',
-        name: 'User',
-        component: () => import('@/views/user/index.vue'),
-      },
-    ],
-  },
+
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/error/404.vue'),
   },
+  CONTENT_ROUTE,
 ]
 
 const router = createRouter({
