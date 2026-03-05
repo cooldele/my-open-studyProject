@@ -136,9 +136,8 @@
           sortable
           align="center"
         />
-        <el-table-column prop="receivedDate" label="领取日期" width="120" sortable align="center" />
 
-        <el-table-column prop="company" label="公司" min-width="150" show-overflow-tooltip>
+        <el-table-column prop="company" label="生成公司" min-width="150" show-overflow-tooltip>
           <template #default="scope">
             <div class="company-cell">
               <el-icon><OfficeBuilding /></el-icon>
@@ -146,6 +145,8 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column prop="receivedDate" label="领取日期" width="120" sortable align="center" />
+        <el-table-column prop="recipient" label="领取人" width="120" sortable align="center" />
 
         <el-table-column label="操作" width="150" fixed="right" align="center">
           <template #default="scope">
@@ -179,6 +180,7 @@
 </template>
 
 <script setup lang="ts">
+import { getAssetList } from '@/api/assets'
 import {
   Delete,
   Edit,
@@ -190,7 +192,6 @@ import {
 } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
-
 defineOptions({
   name: 'AssetsPage',
 })
@@ -293,42 +294,31 @@ const handleDelete = (row: Asset) => {
     .catch(() => {})
 }
 
-// 导出数据
-const handleExport = () => {
-  ElMessage.success('导出功能开发中...')
-}
-
-function buildQueryParams(obj: Record<string, any>) {
-  const params = new URLSearchParams()
-  Object.entries(obj).forEach(([k, v]) => {
-    if (v !== undefined && v !== '' && v !== null && v.length !== 0) {
-      params.set(k, Array.isArray(v) ? v.join(',') : String(v))
-    }
-  })
-  return params.toString()
-}
-
 async function fetchAssets() {
-  const q = {
-    page: page.value,
-    pageSize: pageSize.value,
-    keyword: query.keyword || undefined,
-    minPrice: query.minPrice,
-    maxPrice: query.maxPrice,
-    manufactureDate: query.manufactureDate?.join(','),
-    receivedDate: query.receivedDate?.join(','),
-    company: query.company || undefined,
-  }
-  const qs = buildQueryParams(q)
-  const res = await fetch(`/api/assets?${qs}`)
-  const json = await res.json()
-  const data: PagedResult<Asset> = json.data
-  assets.value = data.list
-  total.value = data.total
-  page.value = data.page
-  pageSize.value = data.pageSize
+  try {
+    const result = await getAssetList({
+      page: page.value,
+      pageSize: pageSize.value,
+      minPrice: query.minPrice,
+      maxPrice: query.maxPrice,
+      manufactureDate: query.manufactureDate,
+      receivedDate: query.receivedDate,
+      company: query.company || undefined,
+    })
 
-  ElMessage.success('数据加载成功')
+    if (result.code === 200) {
+      const data: PagedResult<Asset> = result.data
+      assets.value = data.list
+      total.value = data.total
+      page.value = data.page
+      pageSize.value = data.pageSize
+    } else {
+      ElMessage.error(result.message || '获取数据失败')
+    }
+  } catch (error) {
+    ElMessage.error('请求失败')
+    console.error(error)
+  }
 }
 
 function search() {

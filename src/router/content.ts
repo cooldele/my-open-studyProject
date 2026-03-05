@@ -31,5 +31,14 @@ export const CONTENT_ROUTE = {
       },
       component: () => import('@/views/assets/index.vue'),
     },
+    {
+      name: 'Message',
+      path: '/message',
+      meta: {
+        title: '消息中心',
+        icon: 'Message',
+      },
+      component: () => import('@/views/message/index.vue'),
+    },
   ],
 }
