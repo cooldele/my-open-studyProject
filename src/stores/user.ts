@@ -1,5 +1,5 @@
 // src/stores/user.ts
-import { getUserInfo, login, logout } from '@/api/modules/user'
+import { getUserInfo, login, logout } from '@/api/user'
 import type { UserInfo } from '@/api/user/types'
 import { defineStore } from 'pinia'
 

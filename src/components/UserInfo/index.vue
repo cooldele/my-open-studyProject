@@ -7,7 +7,7 @@
         <!-- 今日任务 -->
         <div class="stat-item" @click="handleTaskClick">
           <div class="stat-icon today-task">
-            <el-icon><Calendar /></el-icon>
+            <el-icon><Document /></el-icon>
           </div>
           <div class="stat-content">
             <div class="stat-value">{{ userStats.todayTasks || 5 }}</div>
@@ -18,7 +18,7 @@
         <!-- 未读消息 -->
         <div class="stat-item" @click="handleMessageClick">
           <div class="stat-icon unread-msg">
-            <el-icon><Message /></el-icon>
+            <el-icon><ChatDotSquare /></el-icon>
           </div>
           <div class="stat-content">
             <div class="stat-value">{{ userStats.unreadMessages || 3 }}</div>
@@ -54,8 +54,9 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+// 从 element-plus 图标库中导入几个存在的图标
+import { ChatDotSquare, Clock, Document } from '@element-plus/icons-vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-
 const userStore = useUserStore()
 
 // 用户信息
@@ -125,15 +126,13 @@ onUnmounted(() => {
 .dashboard-user-info {
   width: 100%;
   background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border: 1px solid #ebeef5;
+  padding: 0 20px;
+  align-items: center;
 
   .user-profile {
     display: flex;
+    height: 100%;
     align-items: center;
-    gap: 20px;
 
     .user-avatar {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

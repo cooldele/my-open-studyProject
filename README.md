@@ -86,7 +86,7 @@ src/
 ├── layouts/ # 布局组件
 ├── mock/ # Mock 数据
 ├── router/ # 路由配置
-├── stores/ # Pinia Store
+├── stores/ # Pinia VUEX
 ├── styles/ # 样式文件
 ├── types/ # TypeScript 类型
 ├── utils/ # 工具函数

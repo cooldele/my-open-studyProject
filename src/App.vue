@@ -1,12 +1,6 @@
 <template>
   <!-- 路由视图 -->
-  <router-view v-slot="{ Component, route }">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <component :is="Component" :key="route.fullPath" />
-      </keep-alive>
-    </transition>
-  </router-view>
+  <router-view> </router-view>
 </template>
 
 <script setup lang="ts">

@@ -95,7 +95,7 @@
 
         <el-table-column label="角色" prop="role" width="120">
           <template #default="{ row }">
-            <el-tag :type="roleTypeMap[row.role]">
+            <el-tag :type="roleTypeMap[row.role] || undefined">
               {{ roleMap[row.role] }}
             </el-tag>
           </template>
@@ -157,6 +157,8 @@
 </template>
 
 <script setup lang="ts">
+import { getUserList } from '@/api/user'
+import { PagedResult } from '@/mock/asset'
 import { formatDate } from '@/utils/date'
 import { Delete, Download, Edit, Plus, Refresh, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -219,48 +221,12 @@ const loadUserList = async () => {
   try {
     loading.value = true
     // 这里调用 API
-    // const res = await getUserList({ ...searchForm, ...pagination })
+    const res = await getUserList()
+    console.log(res)
+    const data: PagedResult<User> = res.data
+    userList.value = data.list || []
 
-    // 模拟数据
-    await new Promise((resolve) => setTimeout(resolve, 500))
-
-    userList.value = [
-      {
-        id: 1,
-        username: 'admin',
-        nickname: '管理员',
-        avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f1a8739e41b94d70055png.png',
-        role: 'admin',
-        phone: '13800138000',
-        status: 1,
-        isAdmin: true,
-        createTime: '2023-10-01 10:00:00',
-      },
-      {
-        id: 2,
-        username: 'editor',
-        nickname: '编辑员',
-        avatar: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-        role: 'editor',
-        phone: '13900139000',
-        status: 1,
-        isAdmin: false,
-        createTime: '2023-10-02 14:30:00',
-      },
-      {
-        id: 3,
-        username: 'viewer',
-        nickname: '查看者',
-        avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-        role: 'viewer',
-        phone: '13700137000',
-        status: 1,
-        isAdmin: false,
-        createTime: '2023-10-03 09:15:00',
-      },
-    ]
-
-    pagination.total = 100
+    pagination.total = userList.value.length
   } catch (error) {
     ElMessage.error('加载用户列表失败')
   } finally {
@@ -386,8 +352,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .user-management-container {
-  padding: 20px;
-
   .user-info {
     display: flex;
     align-items: center;

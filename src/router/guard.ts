@@ -1,6 +1,5 @@
 // src/router/guard.ts
 import { useUserStore } from '@/stores/user'
-import console from 'console'
 import { ElMessage } from 'element-plus'
 import NProgress from 'nprogress'
 import type { Router } from 'vue-router'
